@@ -71,18 +71,19 @@ function App() {
   };
 
   const findNearbyServices = async () => {
-    if (!userLocation || !analysis) return;
-
     setLoading(true);
     try {
+      // Use mock location if geolocation is unavailable
+      const location = userLocation || { latitude: 40.7128, longitude: -74.0060 };
+      
       const response = await fetch(`${API_BASE}/api/find-nearby`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
+          latitude: location.latitude,
+          longitude: location.longitude,
           problem_type: analysis.professional_type
         })
       });
